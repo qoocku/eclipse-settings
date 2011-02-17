@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The GenEvent behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_event" name="gen_event">${file_comment}.
+-behaviour(gen_event).
+
+${behaviour_comment}
+-export([init/1,
+              handle_event/2,
+              handle_call/2,
+              handle_info/2,
+              terminate/2,
+              code_change/3]).
+
+${module_exports}
+
+-record(state, {}). % TODO: Fill the state record attributes.
+-type state () :: #state{}.
+
+-type initArgs() :: [any()]. % TODO: Define initial arguments.
+-type event() :: any(). % TODO: Define event types.
+
+%%% ====================================================================
+%%% B e h a v i o r  F u n c t i o n s
+%%% ====================================================================
+
+-spec init (Args::initArgs()) -&gt; {ok, state()}.
+-spec handle_event (event(), state()) -&gt; {ok, state()}.
+-spec handle_call (request(), state()) -&gt; {ok, callAnswer(), state()}          |
+         {swap_handler, callAnswer(), initArgs(), state(), module(), [any()]} |
+         {remove_handler, callAnswer()}.
+
+
+%% --------------------------------------------------------------------
+%% @doc Initialises the handler state.
+%% @end
+%% --------------------------------------------------------------------
+
+init ([]) -&gt;
+	{ok, #state{}}.
+
+%% --------------------------------------------------------------------
+%% @doc Handles an event.
+%% @end
+%% --------------------------------------------------------------------
+
+handle_event (Event, State) -&gt;
+	{ok, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Answers a request.
+%% @end
+%% --------------------------------------------------------------------
+
+handle_call (Request, State) -&gt;
+	Reply = ok,
+	{ok, Reply, State}.
+
+%% --------------------------------------------------------------------
+%% Func: handle_info/2
+%% Returns: {ok, State}                                |
+%%          {swap_handler, Args1, State1, Mod2, Args2} |
+%%          remove_handler
+%% --------------------------------------------------------------------
+handle_info(Info, State) -&gt;
+    {ok, State}.
+
+%% --------------------------------------------------------------------
+%% Func: terminate/2
+%% Purpose: Shutdown the server
+%% Returns: any
+%% --------------------------------------------------------------------
+terminate(Reason, State) -&gt;
+    ok.
+
+%% --------------------------------------------------------------------
+%% Func: code_change/3
+%% Purpose: Convert process state when code is changed
+%% Returns: {ok, NewState}
+%% --------------------------------------------------------------------
+code_change(OldVsn, State, Extra) -&gt;
+    {ok, State}.
+
+%% --------------------------------------------------------------------
+%%% Internal functions
+%% --------------------------------------------------------------------
+
+${local_functions}</template></templates>
