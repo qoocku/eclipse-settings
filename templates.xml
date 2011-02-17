@@ -1,33 +1,148 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The GenEvent behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_event" name="gen_event">${file_comment}.
--behaviour(gen_event).
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="EDoc type specification" enabled="true" name="@type">%% @type ${type}() = ${type_spec}. ${type_comment}
+-type ${type}() :: ${type_spec} .</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The Application behaviour" enabled="true" id="org.erlide.ui.erlangsource.application" name="application">${file_comment}
+-behaviour(application).
+
+${behaviour_exports_comment}
+
+-export([start/2, stop/1]).
+
+${common_exports}
+
+-type startType () :: any(). % TODO: Define the application start type.
+-type startArgs () :: [any()]. % TODO: Define the application start arguments types.
+-type stopState () :: any(). % TODO: Define the application stop state types.
+
+-spec start (startType(), startArgs()) -&gt; {ok, pid()}.
+-spec stop (state()) -&gt; any().
 
 ${behaviour_comment}
--export([init/1,
-              handle_event/2,
-              handle_call/2,
-              handle_info/2,
-              terminate/2,
-              code_change/3]).
 
-${module_exports}
+%% --------------------------------------------------------------------
+%% @doc Callback when the application is being started.
+%% @end
+%% --------------------------------------------------------------------
+
+start (_Type, StartArgs) -&gt;
+	Supervisor:start_link(StartArgs).
+
+%% --------------------------------------------------------------------
+%% @doc Callback when the application is being stopped.
+%% @end
+%% --------------------------------------------------------------------
+
+stop (_State) -&gt;
+	ok.
+
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before code with behavioral functions definitions." enabled="true" id="org.erlide.ui.erlangsource.behaviourcomment" name="behaviour_comment">%%% ============================================================================
+%%% B e h a v i o r   F u n c t i o n s
+%%% ============================================================================</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Any behaviour exports preceding comment" enabled="true" name="behaviour_exports_comment">%%% ============================================================================
+%%% B e h a v i o r a l  E x p o r t s
+%%% ============================================================================</template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Erlang case block" enabled="true" id="org.erlide.ui.editor.case" name="case">case ${expr} of
+  ${value} -&gt; ${clause};
+  _        -&gt; ${default}
+end,
+</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Exports common to all modules types" enabled="true" name="common_exports">%%% --------------------------------------------------------------------
+%%% C l i e n t  A P I  E x p o r t s
+%%% --------------------------------------------------------------------
+
+-export ([${exports}]).
+
+%%% --------------------------------------------------------------------
+%%% I n t e r n a l  e x p o r t s
+%%% --------------------------------------------------------------------
+
+-export ([]).
+
+%%% --------------------------------------------------------------------
+%%% M a c r o s
+%%% --------------------------------------------------------------------
+
+%%% --------------------------------------------------------------------
+%%% R e c o r d s ,  T y p e s  a n d  S p e c s
+%%% --------------------------------------------------------------------
+</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="%descriptionExportComment" enabled="true" id="org.erlide.ui.erlangsource.exportcomment" name="export_comment">%%% --------------------------------------------------------------------
+%%% C l i e n t  A P I  E x p o r t s
+%%% --------------------------------------------------------------------
+
+-export ([${exported_functions}]).
+
+%%% --------------------------------------------------------------------
+%%% I n t e r n a l  e x p o r t s
+%%% --------------------------------------------------------------------
+
+-export([${exports}]).
+
+%%% --------------------------------------------------------------------
+%%% M a c r o s
+%%% --------------------------------------------------------------------
+
+%%% --------------------------------------------------------------------
+%%% R e c o r d s ,  T y p e s  a n d  S p e c s
+%%% --------------------------------------------------------------------
+</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before code with definitions for all exported functions." enabled="true" name="exported_functions_comment">%%% ============================================================================
+%%% C l i e n t  A P I / E x p o r t e d  F u n c t i o n s
+%%% ============================================================================</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Part of a code containing definitions of exported functions." enabled="true" name="exported_functions_part">${exported_functions_comment}
+
+${exported_functions}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A module file header comment" enabled="true" id="org.erlide.ui.erlangsource.filecomment" name="file_comment">%%% ==========================================================================
+%%% @author ${user} &lt;${email}&gt;
+%%% @since ${date}
+%%% @doc TODO: Add description to ${module}
+%%% @end
+%%% ==========================================================================
+-module  (${module}).
+-author  ("${user} &lt;${email}&gt;").
+-include ("vsn").</template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Folding a list" enabled="true" name="foldl">  Fun = fun (${item}, ${acc}) -&gt;
+          ${cursor}
+        end,
+  lists:foldl(Fun, ${initial_acc}, ${list} ),
+  
+  </template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Function clause" enabled="true" name="func">%% ----------------------------------------------------------------------------
+%% @doc TODO
+%% @end
+%% ----------------------------------------------------------------------------
+${function_comment}
+-spec ${function} (${arguments}) -&gt; ${return_spec}.
+
+${function} (${arguments}) -&gt;
+	${cursor}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before function definition." enabled="true" id="org.erlide.ui.erlangsource.functioncomment" name="function_comment">%% -----------------------------------------------------------------------------
+%% @doc TODO: Add description of ${function_name}/${function_arity}
+%% @end
+%% -----------------------------------------------------------------------------</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The GenEvent behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_event" name="gen_event">${file_comment}
+-behaviour(gen_event).
+
+${behaviour_exports_comment}
+
+-export([init/1,
+         handle_event/2,
+         handle_call/2,
+         handle_info/2,
+         terminate/2,
+         code_change/3]).
+
+${common_exports}
 
 -record(state, {}). % TODO: Fill the state record attributes.
 -type state () :: #state{}.
 
 -type initArgs() :: [any()]. % TODO: Define initial arguments.
 -type event() :: any(). % TODO: Define event types.
+-type info() :: any(). % TODO: Define async messages types.
+-type callAnswer() :: any(). % TODO: Define call answers types.
+-type asyncResult() :: {ok, state()} | {swap_handler, initArgs(), state(), module(), [any()]} | remove_handler.
+-type callResult() :: {ok, callAnswer(), state()} |
+                       {swap_handler, callAnswer(), initArgs(), state(), module(), [any()]} |
+                       {remove_handler, callAnswer()}. 
+-type termReason() :: any(). % TODO: Define types of termination reasons.                       
 
-%%% ====================================================================
-%%% B e h a v i o r  F u n c t i o n s
-%%% ====================================================================
+${behaviour_comment}
 
 -spec init (Args::initArgs()) -&gt; {ok, state()}.
--spec handle_event (event(), state()) -&gt; {ok, state()}.
--spec handle_call (request(), state()) -&gt; {ok, callAnswer(), state()}          |
-         {swap_handler, callAnswer(), initArgs(), state(), module(), [any()]} |
-         {remove_handler, callAnswer()}.
-
-
+-spec handle_event (event(), state()) -&gt; asyncResult().
+-spec handle_call (request(), state()) -&gt; callResult().
+-spec handle_info (info(), state()) -&gt; asyncResult().
+-spec terminate (termReason(), state()) -&gt; any().
+-spec code_change (any(), state(), any()) -&gt; {ok, state()}.
+         
 %% --------------------------------------------------------------------
 %% @doc Initialises the handler state.
 %% @end
@@ -54,32 +169,321 @@ handle_call (Request, State) -&gt;
 	{ok, Reply, State}.
 
 %% --------------------------------------------------------------------
-%% Func: handle_info/2
-%% Returns: {ok, State}                                |
-%%          {swap_handler, Args1, State1, Mod2, Args2} |
-%%          remove_handler
-%% --------------------------------------------------------------------
-handle_info(Info, State) -&gt;
-    {ok, State}.
-
-%% --------------------------------------------------------------------
-%% Func: terminate/2
-%% Purpose: Shutdown the server
-%% Returns: any
-%% --------------------------------------------------------------------
-terminate(Reason, State) -&gt;
-    ok.
-
-%% --------------------------------------------------------------------
-%% Func: code_change/3
-%% Purpose: Convert process state when code is changed
-%% Returns: {ok, NewState}
-%% --------------------------------------------------------------------
-code_change(OldVsn, State, Extra) -&gt;
-    {ok, State}.
-
-%% --------------------------------------------------------------------
-%%% Internal functions
+%% @doc Handles any asynchronous message not sent through `gen_event'
+%%         API.
+%% @end
 %% --------------------------------------------------------------------
 
-${local_functions}</template></templates>
+handle_info (Info, State) -&gt;
+	{ok, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Callback when a handler is being terminated.
+%% @end
+%% --------------------------------------------------------------------
+
+terminate (_Reason, _State) -&gt;
+	ok.
+
+%% --------------------------------------------------------------------
+%% @doc Convert process state when code is changed.
+%% @end
+%% --------------------------------------------------------------------
+
+code_change (_OldVsn, State, _Extra) -&gt;
+	{ok, State}.
+
+${local_functions_part}
+</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The FSM behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_fsm" name="gen_fsm">${file_comment}
+-behaviour(gen_fsm).
+
+${behaviour_exports_comment}
+
+-export ([init/1,
+          state_name/2,
+          state_name/3,
+          handle_event/3,
+          handle_sync_event/4,
+	        handle_info/3,
+	        terminate/3,
+	        code_change/4]).
+
+${common_exports}
+
+-record(state, {}). % TODO: Define state record attributes.
+-type state() :: #state{}.
+
+-type timeout() :: non_neg_integer().
+-type stateName() :: atom(). % TODO: Define possible state names.
+-type initArgs() :: [any()]. % TODO: Define possible initial arguments.
+-type stopReason() :: any(). % TODO: Define possible stop reason types.
+-type stateShift() :: {next_state, stateName(), state()}          |
+         {next_state, stateName(), state(), timeout()} |
+         {stop, stopReason(), state()}.
+-type answer() :: any(). % TODO: Define answers types.         
+-type stateShiftAnswered() :: stateShift() | 
+                  {reply, answer(), stateName(), state()} |
+                  {reply, answer(), stateName(), state(), timeout()}.
+         
+-type event() :: any(). % TODO: Define accepted events types.   
+-type info() :: any(). % TODO: Define accepted async. messages.
+
+-spec init (initArgs()) -&gt; {ok, stateName(), state()}.
+-spec handle_event (event(), stateName(), state()) -&gt; stateShift().
+-spec handle_sync_event (event(), any(), stateName(), state()) -&gt; stateShiftAnswered().
+-spec handle_info (info(), stateName(), state()) -&gt; stateShift().
+-spec terminate (stopReason(), stateName(), state()) -&gt; any().
+-spec code_change (any(), stateName(), state(), any()) -&gt; {ok, stateName(), state()}.
+
+${behaviour_comment}
+
+%% --------------------------------------------------------------------
+%% @doc Initialises the machine.
+%% @end
+%% --------------------------------------------------------------------
+
+init([]) -&gt;
+	{ok, StateName, #state{}}.
+
+%% --------------------------------------------------------------------
+%% @doc Shifts the machine state when an event occurs while the machine
+%%      being in the state_name state.
+%% @end
+%% --------------------------------------------------------------------
+
+-spec state_name (event(), state()) -&gt; stateShift().
+
+state_name (Event, State) -&gt;
+	{next_state, NextStateName, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Shifts the machine state when an event occurs with answering to the 
+%%      event origin process while the machine being in the state_name
+%%          state.
+%% @end
+%% --------------------------------------------------------------------
+
+state_name (Event, _From, State) -&gt;
+	Reply = ok,
+	{reply, Reply, NextStateName, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Shifts the machine state when an event occurs irrespectively
+%%      on the current machine's state.
+%% @end
+%% --------------------------------------------------------------------
+
+handle_event (Event, StateName, State) -&gt;
+	{next_state, StateName, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Shifts the machine state when an event occurs with answering to the 
+%%      event origin process while the machine being in any state.
+%% @end
+%% --------------------------------------------------------------------
+
+handle_sync_event (Event, From, StateName, State) -&gt;
+	Reply = ok,
+	{reply, Reply, StateName, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Shifts the machine state when a non-gen_fsm message occurs.
+%% @end.
+%% --------------------------------------------------------------------
+
+handle_info (Info, StateName, State) -&gt;
+	{next_state, StateName, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Callback when the machine is being to be terminated.
+%% @end
+%% --------------------------------------------------------------------
+
+terminate (_Reason, _StateName, _State) -&gt;
+	ok.
+
+%% --------------------------------------------------------------------
+%% @doc Callback when the code change accurs.
+%% @end
+%% --------------------------------------------------------------------
+
+code_change (_OldVsn, StateName, State, _Extra) -&gt;
+	{ok, StateName, State}.
+
+${exported_functions_part}
+
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The GenServer behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_server" name="gen_server">${file_comment}
+-behavior(gen_server).
+
+${behaviour_exports_comment}
+
+-export([init/1,
+         handle_call/3,
+         handle_cast/2,
+         handle_info/2,
+         terminate/2,
+         code_change/3]).
+
+${common_exports}
+
+-record(state, {}).
+-type state() :: #state{}. %TODO: Define state record attributes.
+-type initArgs() :: [any()]. % TODO: Define initial arguments types.
+-type timeout() ::  non_neg_integer().
+-type stopReason() :: any(). % TODO: Define stop reasons types.
+-type stopResult() :: {stop, stopReason(), state()}.
+-type asyncResult() :: {noreply, state()} | {noreply, state(), timeout()} | stopResult().
+-type call() :: any(). % TODO: Define requests types.
+-type reply() :: any(). % TODO: Define replies types.
+-type cast() :: any(). % TODO: Define cast messages types.
+-type info() :: any(). % TODO: Define async messages types.
+
+-spec init (initArgs()) -&gt; {ok, state()} | {ok, state(), timeout()} | ignore | {stop, stopReason()}.
+-spec handle_call (call(), any(), state()) -&gt; asyncResult() | {reply, reply(), state()} | {reply, reply(), state(), timeout()}.
+-spec handle_cast (cast(), state()) -&gt; asyncResult().
+-spec handle_info (info(), state()) -&gt; asyncResult().
+-spec terminate (stopReason(), state()) -&gt; any().
+-spec code_change (any(), state(), any()) -&gt; {ok, state()}.
+
+${behaviour_comment}
+
+%% --------------------------------------------------------------------
+%% @doc Initialises the server.
+%% @end
+%% --------------------------------------------------------------------
+
+init([]) -&gt;
+	{ok, #state{}}.
+
+%% --------------------------------------------------------------------
+%% @doc Handling call messages.
+%% @end
+%% --------------------------------------------------------------------
+
+handle_call (Request, _From, State) -&gt;
+    Reply = ok,
+    {reply, Reply, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Handling cast messages.
+%% @end
+%% --------------------------------------------------------------------
+
+handle_cast (Msg, State) -&gt;
+	{noreply, State}.
+
+%% --------------------------------------------------------------------
+%% @doc Handling all non call/cast messages
+%% @end
+%% --------------------------------------------------------------------
+
+handle_info (Info, State) -&gt;
+	{noreply, State}.
+
+%% --------------------------------------------------------------------
+%% edoc Shutdown the server.
+%% @end
+%% --------------------------------------------------------------------
+
+terminate(_Reason, _State) -&gt;
+	ok.
+
+%% --------------------------------------------------------------------
+%% @doc Convert process state when code is changed.
+%% @end
+%% --------------------------------------------------------------------
+
+code_change (_OldVsn, State, _Extra) -&gt;
+	{ok, State}.
+
+${exported_functions_part}
+
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Part of the code with local functions definitions." enabled="true" name="local_functions_part">${local_functions_part_comment}
+
+${local_functions}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before local functions part." enabled="true" name="local_functions_part_comment">%%% ============================================================================
+%%% L o c a l  F u n c t i o n s
+%%% ============================================================================</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="Erlang Module With Comments" enabled="true" id="org.erlide.ui.erlangsource.modulelayout" name="module">${file_comment}
+
+${common_exports}
+
+${exported_functions_part}
+
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Erlang Module Typical Header" enabled="true" name="module_header">${file_comment}
+</template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Message receive" enabled="true" name="receive">receive
+  V -&gt; ${cursor}
+end
+</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The Supervisor behaviour" enabled="true" id="org.erlide.ui.erlangsource.supervisor" name="supervisor">${file_comment}
+-behavior (supervisor).
+
+${behaviour_exports_comment}
+
+-export ([init/1]).
+
+${common_exports}
+
+${behaviour_comment}
+
+-type initArgs() :: [any()]. % TODO: Define initialisation arguments.
+-type supFlags() :: {one_for_all | one_for_many | one_for_one_only, pos_integer(), pos_integer()}.
+-type childSpec() :: {any(), {module(), atom(), [any()]}, transient | permanent, pos_integer(), worker | supervisor, [module()]}.
+-type errorReason() :: any(). % TODO: Define error reasons types.
+
+-spec init (initArgs()) -&gt;  {ok,  {supFlags(),  [childSpec()]}} | ignore | {error, errorReason()}.
+
+%% --------------------------------------------------------------------
+%% @doc Initialises the supervisor state.
+%% @end
+%% --------------------------------------------------------------------
+
+init([]) -&gt;
+	AChild = {AName, {AModule, start_link, []},
+             permanent,2000,worker,['AModule']},
+    {ok, {{one_for_all, 0, 1}, [AChild]}}.
+
+${exported_functions_part}
+
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The SupervisorBridge behaviour" enabled="true" id="org.erlide.ui.erlangsource.supervisor_bridge" name="supervisor_bridge">${file_comment}
+-behavior (supervisor_bridge).
+
+${behaviour_exports_comment}
+
+-export ([init/1, terminate/2]).
+
+${common_exports}
+
+-record(state, {}).
+-type state() :: #state{}. % TODO: Define the state record attributes.
+-type initArgs() :: [any()]. % TODO: Define initialisation arguments.
+-type errorReason() :: any(). % TODO: Define error reasons types.
+-type stopReason() :: any(). % TODO: Define stop reasons types.
+
+-spec init (initArgs()) -&gt; {ok,  pid(), state()} | ignore | {error, errorReason()}.
+-spec terminate (stopReason(), state()) -&gt; any().
+
+${behaviour_comment}
+
+%% --------------------------------------------------------------------
+%% @doc Initialises the bridge.
+%% @end
+%% --------------------------------------------------------------------
+
+init ([]) -&gt;
+	{ok, undefined, #state{}}.
+
+%% --------------------------------------------------------------------
+%% @doc Synchronized shutdown of the underlying sub system.
+%% @end
+%% --------------------------------------------------------------------
+
+terminate (_Reason, _State) -&gt;
+	ok.
+
+${exported_functions_part}
+
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Erlang try/catch block" enabled="true" id="org.erlide.ui.editor.try_catch" name="try">try
+  ${expr}
+catch
+  throw:${term} -&gt;
+    ${clause}
+end,
+</template></templates>
