@@ -8,19 +8,18 @@ ${behaviour_exports_comment}
 
 ${common_exports}
 
--type startType () :: any(). % TODO: Define the application start type.
--type startArgs () :: [any()]. % TODO: Define the application start arguments types.
--type stopState () :: any(). % TODO: Define the application stop state types.
-
--spec start (startType(), startArgs()) -&gt; {ok, pid()}.
--spec stop (state()) -&gt; any().
-
 ${behaviour_comment}
 
 %% --------------------------------------------------------------------
 %% @doc Callback when the application is being started.
 %% @end
 %% --------------------------------------------------------------------
+
+-type startType () :: any(). % TODO: Define the application start type.
+-type startArgs () :: [any()]. % TODO: Define the application start arguments types.
+-type stopState () :: any(). % TODO: Define the application stop state types.
+
+-spec start (StartType::startType(), Args::startArgs()) -&gt; {ok, pid()}.
 
 start (_Type, StartArgs) -&gt;
 	Supervisor:start_link(StartArgs).
@@ -29,6 +28,8 @@ start (_Type, StartArgs) -&gt;
 %% @doc Callback when the application is being stopped.
 %% @end
 %% --------------------------------------------------------------------
+
+-spec stop (State::state()) -&gt; any().
 
 stop (_State) -&gt;
 	ok.
@@ -59,8 +60,7 @@ end,
 
 %%% --------------------------------------------------------------------
 %%% R e c o r d s ,  T y p e s  a n d  S p e c s
-%%% --------------------------------------------------------------------
-</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="%descriptionExportComment" enabled="true" id="org.erlide.ui.erlangsource.exportcomment" name="export_comment">%%% --------------------------------------------------------------------
+%%% --------------------------------------------------------------------</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="%descriptionExportComment" enabled="true" id="org.erlide.ui.erlangsource.exportcomment" name="export_comment">%%% --------------------------------------------------------------------
 %%% C l i e n t  A P I  E x p o r t s
 %%% --------------------------------------------------------------------
 
@@ -78,8 +78,7 @@ end,
 
 %%% --------------------------------------------------------------------
 %%% R e c o r d s ,  T y p e s  a n d  S p e c s
-%%% --------------------------------------------------------------------
-</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before code with definitions for all exported functions." enabled="true" name="exported_functions_comment">%%% ============================================================================
+%%% --------------------------------------------------------------------</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before code with definitions for all exported functions." enabled="true" name="exported_functions_comment">%%% ============================================================================
 %%% C l i e n t  A P I / E x p o r t e d  F u n c t i o n s
 %%% ============================================================================</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Part of a code containing definitions of exported functions." enabled="true" name="exported_functions_part">${exported_functions_comment}
 
@@ -96,15 +95,15 @@ ${exported_functions}</template><template autoinsert="true" context="org.erlide.
         end,
   lists:foldl(Fun, ${initial_acc}, ${list} ),
   
-  </template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Function clause" enabled="true" name="func">%% ----------------------------------------------------------------------------
-%% @doc TODO
+  </template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Function clause" enabled="true" name="func">%% -----------------------------------------------------------------------------
+%% @doc TODO: Add description
 %% @end
-%% ----------------------------------------------------------------------------
-${function_comment}
+%% -----------------------------------------------------------------------------
+
 -spec ${function} (${arguments}) -&gt; ${return_spec}.
 
 ${function} (${arguments}) -&gt;
-	${cursor}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before function definition." enabled="true" id="org.erlide.ui.erlangsource.functioncomment" name="function_comment">%% -----------------------------------------------------------------------------
+	${cursor}</template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="A comment before function definition." enabled="true" id="org.erlide.ui.erlangsource.functioncomment" name="function_comment">%% -----------------------------------------------------------------------------
 %% @doc TODO: Add description of ${function_name}/${function_arity}
 %% @end
 %% -----------------------------------------------------------------------------</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The GenEvent behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_event" name="gen_event">${file_comment}
@@ -124,29 +123,15 @@ ${common_exports}
 -record(state, {}). % TODO: Fill the state record attributes.
 -type state () :: #state{}.
 
--type initArgs() :: [any()]. % TODO: Define initial arguments.
--type event() :: any(). % TODO: Define event types.
--type info() :: any(). % TODO: Define async messages types.
--type callAnswer() :: any(). % TODO: Define call answers types.
--type asyncResult() :: {ok, state()} | {swap_handler, initArgs(), state(), module(), [any()]} | remove_handler.
--type callResult() :: {ok, callAnswer(), state()} |
-                       {swap_handler, callAnswer(), initArgs(), state(), module(), [any()]} |
-                       {remove_handler, callAnswer()}. 
--type termReason() :: any(). % TODO: Define types of termination reasons.                       
-
 ${behaviour_comment}
-
--spec init (Args::initArgs()) -&gt; {ok, state()}.
--spec handle_event (event(), state()) -&gt; asyncResult().
--spec handle_call (request(), state()) -&gt; callResult().
--spec handle_info (info(), state()) -&gt; asyncResult().
--spec terminate (termReason(), state()) -&gt; any().
--spec code_change (any(), state(), any()) -&gt; {ok, state()}.
          
 %% --------------------------------------------------------------------
 %% @doc Initialises the handler state.
 %% @end
 %% --------------------------------------------------------------------
+
+-type initArgs() :: [any()]. % TODO: Define initial arguments.
+-spec init (Args::initArgs()) -&gt; {ok, state()}.
 
 init ([]) -&gt;
 	{ok, #state{}}.
@@ -156,6 +141,10 @@ init ([]) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-type event() :: any(). % TODO: Define event types.
+-type asyncResult() :: {ok, state()} | {swap_handler, initArgs(), state(), module(), [any()]} | remove_handler.%TODO: choose async results!
+-spec handle_event (Event::event(), State::state()) -&gt; asyncResult().
+
 handle_event (Event, State) -&gt;
 	{ok, State}.
 
@@ -163,6 +152,13 @@ handle_event (Event, State) -&gt;
 %% @doc Answers a request.
 %% @end
 %% --------------------------------------------------------------------
+
+-type request () :: any(). %TODO: define request type(s)!
+-type callAnswer() :: any(). % TODO: Define call answers types.-type callAnswer() :: any(). % TODO: Define call answers types.
+-type callResult() :: {ok, callAnswer(), state()} |
+                       {swap_handler, callAnswer(), initArgs(), state(), module(), [any()]} |
+                       {remove_handler, callAnswer()}. %TODO: choose call results!
+-spec handle_call (Request::request(), State::state()) -&gt; callResult().
 
 handle_call (Request, State) -&gt;
 	Reply = ok,
@@ -174,6 +170,9 @@ handle_call (Request, State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-type info() :: any(). % TODO: Define async messages types.
+-spec handle_info (Info::info(), State::state()) -&gt; asyncResult().
+
 handle_info (Info, State) -&gt;
 	{ok, State}.
 
@@ -181,6 +180,9 @@ handle_info (Info, State) -&gt;
 %% @doc Callback when a handler is being terminated.
 %% @end
 %% --------------------------------------------------------------------
+
+-type termReason() :: any(). % TODO: Define types of termination reasons.                       
+-spec terminate (Reason::termReason(), State::state()) -&gt; any().
 
 terminate (_Reason, _State) -&gt;
 	ok.
@@ -190,11 +192,12 @@ terminate (_Reason, _State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-spec code_change (OldVsn::any(), State::state(), Extra::any()) -&gt; {ok, state()}.
+
 code_change (_OldVsn, State, _Extra) -&gt;
 	{ok, State}.
 
-${local_functions_part}
-</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The FSM behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_fsm" name="gen_fsm">${file_comment}
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module" deleted="false" description="The FSM behaviour" enabled="true" id="org.erlide.ui.erlangsource.gen_fsm" name="gen_fsm">${file_comment}
 -behaviour(gen_fsm).
 
 ${behaviour_exports_comment}
@@ -213,28 +216,6 @@ ${common_exports}
 -record(state, {}). % TODO: Define state record attributes.
 -type state() :: #state{}.
 
--type timeout() :: non_neg_integer().
--type stateName() :: atom(). % TODO: Define possible state names.
--type initArgs() :: [any()]. % TODO: Define possible initial arguments.
--type stopReason() :: any(). % TODO: Define possible stop reason types.
--type stateShift() :: {next_state, stateName(), state()}          |
-         {next_state, stateName(), state(), timeout()} |
-         {stop, stopReason(), state()}.
--type answer() :: any(). % TODO: Define answers types.         
--type stateShiftAnswered() :: stateShift() | 
-                  {reply, answer(), stateName(), state()} |
-                  {reply, answer(), stateName(), state(), timeout()}.
-         
--type event() :: any(). % TODO: Define accepted events types.   
--type info() :: any(). % TODO: Define accepted async. messages.
-
--spec init (initArgs()) -&gt; {ok, stateName(), state()}.
--spec handle_event (event(), stateName(), state()) -&gt; stateShift().
--spec handle_sync_event (event(), any(), stateName(), state()) -&gt; stateShiftAnswered().
--spec handle_info (info(), stateName(), state()) -&gt; stateShift().
--spec terminate (stopReason(), stateName(), state()) -&gt; any().
--spec code_change (any(), stateName(), state(), any()) -&gt; {ok, stateName(), state()}.
-
 ${behaviour_comment}
 
 %% --------------------------------------------------------------------
@@ -242,7 +223,11 @@ ${behaviour_comment}
 %% @end
 %% --------------------------------------------------------------------
 
-init([]) -&gt;
+-type stateName() :: atom(). % TODO: Define possible state names.
+-type initArgs() :: [any()]. % TODO: Define possible initial arguments.
+-spec init (Args::initArgs()) -&gt; {ok, stateName(), state()}.
+
+init(Args) when is_list(Args) -&gt;
 	{ok, StateName, #state{}}.
 
 %% --------------------------------------------------------------------
@@ -251,7 +236,13 @@ init([]) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
--spec state_name (event(), state()) -&gt; stateShift().
+-type timeout() :: non_neg_integer().
+-type stopReason() :: any(). % TODO: Define possible stop reason types. 
+-type event() :: any(). % TODO: Define accepted events types.   
+-type stateShift() :: {next_state, stateName(), state()}          |
+         {next_state, stateName(), state(), timeout()} |
+         {stop, stopReason(), state()}.
+-spec state_name (Event::event(), State::state()) -&gt; stateShift().
 
 state_name (Event, State) -&gt;
 	{next_state, NextStateName, State}.
@@ -263,6 +254,12 @@ state_name (Event, State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-type answer() :: any(). % TODO: Define answers types. 
+-type stateShiftAnswered() :: stateShift() | 
+                  {reply, answer(), stateName(), state()} |
+                  {reply, answer(), stateName(), state(), timeout()}.
+-spec state_name (Event::event(), From::any(), State::state()) -&gt;
+
 state_name (Event, _From, State) -&gt;
 	Reply = ok,
 	{reply, Reply, NextStateName, State}.
@@ -273,6 +270,8 @@ state_name (Event, _From, State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-spec handle_event (Event::event(), StateName::stateName(), State::state()) -&gt; stateShift().
+
 handle_event (Event, StateName, State) -&gt;
 	{next_state, StateName, State}.
 
@@ -281,6 +280,8 @@ handle_event (Event, StateName, State) -&gt;
 %%      event origin process while the machine being in any state.
 %% @end
 %% --------------------------------------------------------------------
+
+-spec handle_sync_event (Event::event(), From::any(), StateName::stateName(), State::state()) -&gt; stateShiftAnswered().
 
 handle_sync_event (Event, From, StateName, State) -&gt;
 	Reply = ok,
@@ -291,6 +292,8 @@ handle_sync_event (Event, From, StateName, State) -&gt;
 %% @end.
 %% --------------------------------------------------------------------
 
+-spec handle_info (Info::info(), StateName::stateName(), State::state()) -&gt; stateShift().
+
 handle_info (Info, StateName, State) -&gt;
 	{next_state, StateName, State}.
 
@@ -299,6 +302,9 @@ handle_info (Info, StateName, State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-type stopReason() :: any(). % TODO: Define possible stop reason types.         
+-spec terminate (Reason::stopReason(), StateName::stateName(), State::state()) -&gt; any().
+
 terminate (_Reason, _StateName, _State) -&gt;
 	ok.
 
@@ -306,6 +312,8 @@ terminate (_Reason, _StateName, _State) -&gt;
 %% @doc Callback when the code change accurs.
 %% @end
 %% --------------------------------------------------------------------
+
+-spec code_change (OldVsn::any(), StateName::stateName(), State::state(), Extra::any()) -&gt; {ok, stateName(), state()}.
 
 code_change (_OldVsn, StateName, State, _Extra) -&gt;
 	{ok, StateName, State}.
@@ -328,22 +336,6 @@ ${common_exports}
 
 -record(state, {}).
 -type state() :: #state{}. %TODO: Define state record attributes.
--type initArgs() :: [any()]. % TODO: Define initial arguments types.
--type timeout() ::  non_neg_integer().
--type stopReason() :: any(). % TODO: Define stop reasons types.
--type stopResult() :: {stop, stopReason(), state()}.
--type asyncResult() :: {noreply, state()} | {noreply, state(), timeout()} | stopResult().
--type call() :: any(). % TODO: Define requests types.
--type reply() :: any(). % TODO: Define replies types.
--type cast() :: any(). % TODO: Define cast messages types.
--type info() :: any(). % TODO: Define async messages types.
-
--spec init (initArgs()) -&gt; {ok, state()} | {ok, state(), timeout()} | ignore | {stop, stopReason()}.
--spec handle_call (call(), any(), state()) -&gt; asyncResult() | {reply, reply(), state()} | {reply, reply(), state(), timeout()}.
--spec handle_cast (cast(), state()) -&gt; asyncResult().
--spec handle_info (info(), state()) -&gt; asyncResult().
--spec terminate (stopReason(), state()) -&gt; any().
--spec code_change (any(), state(), any()) -&gt; {ok, state()}.
 
 ${behaviour_comment}
 
@@ -352,13 +344,22 @@ ${behaviour_comment}
 %% @end
 %% --------------------------------------------------------------------
 
-init([]) -&gt;
+-type initArgs() :: [any()]. % TODO: Define initial arguments types.
+-type timeout() ::  non_neg_integer().
+-spec init (Args::initArgs()) -&gt; {ok, state()} | {ok, state(), timeout()} | ignore | {stop, stopReason()}.
+
+init(Args) when is_list(Args) -&gt;
 	{ok, #state{}}.
 
 %% --------------------------------------------------------------------
 %% @doc Handling call messages.
 %% @end
 %% --------------------------------------------------------------------
+
+-type stopReason() :: any(). % TODO: Define stop reasons types.
+-type call() :: any(). % TODO: Define requests types.
+-type reply() :: any(). % TODO: Define replies types.
+-spec handle_call (Request::call(), From::any(), State::state()) -&gt; asyncResult() | {reply, reply(), state()} | {reply, reply(), state(), timeout()}.
 
 handle_call (Request, _From, State) -&gt;
     Reply = ok,
@@ -369,13 +370,20 @@ handle_call (Request, _From, State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
-handle_cast (Msg, State) -&gt;
+-type cast() :: any(). % TODO: Define cast messages types.
+-type asyncResult() :: {noreply, state()} | {noreply, state(), timeout()} | stopResult().
+-spec handle_cast (Query::cast(), State::state()) -&gt; asyncResult().
+
+handle_cast (Query, State) -&gt;
 	{noreply, State}.
 
 %% --------------------------------------------------------------------
 %% @doc Handling all non call/cast messages
 %% @end
 %% --------------------------------------------------------------------
+
+-type info() :: any(). % TODO: Define async messages types.
+-spec handle_info (Info::info(), State::state()) -&gt; asyncResult().
 
 handle_info (Info, State) -&gt;
 	{noreply, State}.
@@ -385,6 +393,9 @@ handle_info (Info, State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-type stopResult() :: {stop, stopReason(), state()}.
+-spec terminate (Reason::stopReason(), State::state()) -&gt; any().
+
 terminate(_Reason, _State) -&gt;
 	ok.
 
@@ -393,12 +404,22 @@ terminate(_Reason, _State) -&gt;
 %% @end
 %% --------------------------------------------------------------------
 
+-spec code_change (OldVsn::any(), State::state(), Extra::any()) -&gt; {ok, state()}.
+
 code_change (_OldVsn, State, _Extra) -&gt;
 	{ok, State}.
 
 ${exported_functions_part}
 
-${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Part of the code with local functions definitions." enabled="true" name="local_functions_part">${local_functions_part_comment}
+${local_functions_part}</template><template autoinsert="true" context="org.erlide.ui.editor.erlang" deleted="false" description="Erlang Header File" enabled="true" name="header_file">%%% Author: ${user}
+%%% Since: ${date}
+%%% Synopsis: ${synopsis}
+
+-ifndef (${header_id}).
+-define (${header_id}, true).
+
+-endif.
+</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="Part of the code with local functions definitions." enabled="true" name="local_functions_part">${local_functions_part_comment}
 
 ${local_functions}</template><template autoinsert="true" context="org.erlide.ui.erlangsource.template.context.module.element" deleted="false" description="A comment before local functions part." enabled="true" name="local_functions_part_comment">%%% ============================================================================
 %%% L o c a l  F u n c t i o n s
@@ -423,6 +444,11 @@ ${common_exports}
 
 ${behaviour_comment}
 
+%% --------------------------------------------------------------------
+%% @doc Initialises the supervisor state.
+%% @end
+%% --------------------------------------------------------------------
+
 -type initArgs() :: [any()]. % TODO: Define initialisation arguments.
 -type supFlags() :: {one_for_all | one_for_many | one_for_one_only, pos_integer(), pos_integer()}.
 -type childSpec() :: {any(), {module(), atom(), [any()]}, transient | permanent, pos_integer(), worker | supervisor, [module()]}.
@@ -430,12 +456,7 @@ ${behaviour_comment}
 
 -spec init (initArgs()) -&gt;  {ok,  {supFlags(),  [childSpec()]}} | ignore | {error, errorReason()}.
 
-%% --------------------------------------------------------------------
-%% @doc Initialises the supervisor state.
-%% @end
-%% --------------------------------------------------------------------
-
-init([]) -&gt;
+init(Args) when is_list(Args) -&gt;
 	AChild = {AName, {AModule, start_link, []},
              permanent,2000,worker,['AModule']},
     {ok, {{one_for_all, 0, 1}, [AChild]}}.
@@ -453,12 +474,6 @@ ${common_exports}
 
 -record(state, {}).
 -type state() :: #state{}. % TODO: Define the state record attributes.
--type initArgs() :: [any()]. % TODO: Define initialisation arguments.
--type errorReason() :: any(). % TODO: Define error reasons types.
--type stopReason() :: any(). % TODO: Define stop reasons types.
-
--spec init (initArgs()) -&gt; {ok,  pid(), state()} | ignore | {error, errorReason()}.
--spec terminate (stopReason(), state()) -&gt; any().
 
 ${behaviour_comment}
 
@@ -467,13 +482,21 @@ ${behaviour_comment}
 %% @end
 %% --------------------------------------------------------------------
 
-init ([]) -&gt;
+-type initArgs() :: [any()]. % TODO: Define initialisation arguments.
+-type errorReason() :: any(). % TODO: Define error reasons types.
+
+-spec init (Args::initArgs()) -&gt; {ok,  pid(), state()} | ignore | {error, errorReason()}.
+
+init (Args) when is_list(Args) -&gt;
 	{ok, undefined, #state{}}.
 
 %% --------------------------------------------------------------------
 %% @doc Synchronized shutdown of the underlying sub system.
 %% @end
 %% --------------------------------------------------------------------
+
+-type stopReason() :: any(). % TODO: Define stop reasons types.
+-spec terminate (Reason::stopReason(), State::state()) -&gt; any().
 
 terminate (_Reason, _State) -&gt;
 	ok.
